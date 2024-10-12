@@ -12,8 +12,10 @@
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache
+/coverage.xml
 ###< phpunit/phpunit ###
 
 ###> JetBrains ###
 /.idea
+*.pdf
 ###< JetBrains ###

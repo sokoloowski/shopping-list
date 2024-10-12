@@ -1,0 +1,27 @@
+name: phpunit
+on: [push]
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+      - name: Install dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      - name: Create database
+        run: |
+          bin/console --env=test --no-interaction doctrine:schema:create
+          bin/console --env=test --no-interaction doctrine:schema:update --force
+          bin/console --env=test --no-interaction doctrine:fixtures:load
+      - name: Generate code coverage
+        run: bin/phpunit --coverage-clover coverage.xml
+        env:
+          XDEBUG_MODE: coverage
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
