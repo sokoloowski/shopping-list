@@ -1,5 +1,11 @@
 # Shopping list
 
+[![PHP](https://img.shields.io/badge/PHP-8.2-777BB4?logo=PHP)](https://www.php.net/releases/8.2/en.php)
+[![Symfony](https://img.shields.io/badge/Symfony-7.1-000000?logo=Symfony)](https://symfony.com/doc/7.1/index.html)
+[![phpstan](https://github.com/sokoloowski/shopping-list/actions/workflows/phpstan.yml/badge.svg)](https://github.com/sokoloowski/shopping-list/actions/workflows/phpstan.yml)
+[![phpunit](https://github.com/sokoloowski/shopping-list/actions/workflows/phpunit.yml/badge.svg)](https://github.com/sokoloowski/shopping-list/actions/workflows/phpunit.yml)
+[![codecov](https://codecov.io/github/sokoloowski/shopping-list/graph/badge.svg?token=AZJ05APH80)](https://codecov.io/github/sokoloowski/shopping-list)
+
 ## Task description
 
 Create an application designed for managing shopping lists. The application is accessible only to logged-in users. The
