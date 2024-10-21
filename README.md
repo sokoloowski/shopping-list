@@ -38,7 +38,7 @@ provide the basic entity (ID, username, roles and password) which can be extende
 
 ### `ShoppingList`
 
-- UUID
+- ID
 - name
 - suggested purchase date
 - owner (User)
