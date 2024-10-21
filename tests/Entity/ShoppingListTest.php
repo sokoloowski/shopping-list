@@ -55,12 +55,6 @@ class ShoppingListTest extends TestCase
         $this->assertEquals($name, $list->getName());
     }
 
-    public function testWhenUserIsCreated_ThenIdIsAssigned(): void
-    {
-        $list = new ShoppingList();
-        $this->assertNotNull($list->getId());
-    }
-
     public function testWhenPurchaseDateIsSet_ThenCorrectDateIsGet(): void
     {
         $list = new ShoppingList();

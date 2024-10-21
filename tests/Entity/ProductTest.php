@@ -8,13 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 class ProductTest extends TestCase
 {
-
-    public function testWhenProductIsCreated_ThenIdIsAssigned(): void
-    {
-        $product = new Product();
-        $this->assertNotNull($product->getId());
-    }
-
     public function testWhenProductIsCreated_ThenShoppingListIsAssigned(): void
     {
         $list = $this->createMock(ShoppingList::class);

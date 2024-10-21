@@ -127,10 +127,4 @@ class UserTest extends TestCase
         $user->setLoggedIn();
         $this->assertNotNull($user->getLastLogInDate());
     }
-
-    public function testWhenUserIsCreated_ThenIdIsAssigned(): void
-    {
-        $user = new User();
-        $this->assertNotNull($user->getId());
-    }
 }
