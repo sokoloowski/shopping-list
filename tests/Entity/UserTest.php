@@ -9,19 +9,34 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class UserTest extends TestCase
 {
-    public function testWhenUserVerifiedAtIsNull_ThenUserIsVerifiedIsFalse(): void
+    public function testWhenUserVerifiedAtIsNull_ThenUserVerifiedIsFalse(): void
+    {
+        $user = new User();
+        $this->assertFalse($user->isVerified());
+    }
+
+    public function testWhenUserVerifiedAtIsNull_ThenUserVerificationDateIsNull(): void
     {
         $user = new User();
         $this->assertNull($user->getVerifiedDate());
-        $this->assertFalse($user->isVerified());
     }
 
     public function testWhenUserIsRegistered_ThenRegisteredAtIsNotNull(): void
     {
-        $dateBeforeRegister = new \DateTimeImmutable();
         $user = new User();
         $this->assertNotNull($user->getRegisteredAt());
-        $this->assertGreaterThan($dateBeforeRegister, $user->getRegisteredAt());
+    }
+
+    public function testWhenUserIsRegistered_ThenRegisteredAtIsAfterCreation(): void
+    {
+        $dateBeforeRegister = new \DateTimeImmutable();
+        $user = new User();
+        $this->assertGreaterThan($dateBeforeRegister, $user->getRegisteredAt());;
+    }
+
+    public function testWhenUserIsRegistered_ThenRegisteredAtIsBeforeNow(): void
+    {
+        $user = new User();
         $this->assertLessThan(new \DateTimeImmutable(), $user->getRegisteredAt());
     }
 
@@ -29,6 +44,11 @@ class UserTest extends TestCase
     {
         $user = new User();
         $this->assertNotNull($user->getVerificationCode());
+    }
+
+    public function testWhenUserIsRegistered_ThenVerificationCodeIsNotEmpty(): void
+    {
+        $user = new User();
         $this->assertNotEmpty($user->getVerificationCode());
     }
 
@@ -41,11 +61,23 @@ class UserTest extends TestCase
 
     public function testWhenCorrectVerificationCodeUsed_ThenVerificationDateIsSet(): void
     {
-        $dateBeforeVerification = new \DateTimeImmutable();
         $user = new User();
         $user->verify($user->getVerificationCode());
         $this->assertNotNull($user->getVerifiedAt());
+    }
+
+    public function testWhenCorrectVerificationCodeUsed_ThenVerificationDateIsAfterVerification(): void
+    {
+        $user = new User();
+        $dateBeforeVerification = new \DateTimeImmutable();
+        $user->verify($user->getVerificationCode());
         $this->assertGreaterThan($dateBeforeVerification, $user->getVerifiedAt());
+    }
+
+    public function testWhenCorrectVerificationCodeUsed_ThenVerificationDateIsBeforeNow(): void
+    {
+        $user = new User();
+        $user->verify($user->getVerificationCode());
         $this->assertLessThan(new \DateTimeImmutable(), $user->getVerifiedAt());
     }
 
@@ -60,10 +92,45 @@ class UserTest extends TestCase
     {
         $user = new User();
         $list = $this->createMock(ShoppingList::class);
+        $user->addShoppingList($list);
+        $this->assertContains($list, $user->getShoppingLists());
+    }
+
+    public function testWhenUserCreatesNewShoppingList_ThenShoppingListOwnerWillBeSet(): void
+    {
+        $user = new User();
+        $list = $this->createMock(ShoppingList::class);
         $list->expects($this->once())
             ->method("setOwner")
             ->with($user);
         $user->addShoppingList($list);
-        $this->assertContains($list, $user->getShoppingLists());
+    }
+
+    public function testWhenUserLogIn_ThenLastLogInDateIsUpdated(): void
+    {
+        $user = new User();
+        $user->setLoggedIn();
+        $lastLogin = $user->getLastLogInDate();
+        $user->setLoggedIn();
+        assertGreaterThan($lastLogin, $user->getLastLogInDate());
+    }
+
+    public function testWhenUserRegister_ThenLastLogInDateIsNull(): void
+    {
+        $user = new User();
+        $this->assertNull($user->getLastLogInDate());
+    }
+
+    public function testWhenUserLogIn_ThenLastLogInDateIsNotNull(): void
+    {
+        $user = new User();
+        $user->setLoggedIn();
+        $this->assertNotNull($user->getLastLogInDate());
+    }
+
+    public function testWhenUserIsCreated_ThenIdIsAssigned(): void
+    {
+        $user = new User();
+        $this->assertNotNull($user->getId());
     }
 }
