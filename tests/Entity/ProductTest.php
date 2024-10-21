@@ -38,24 +38,25 @@ class ProductTest extends TestCase
         $this->assertFalse($product->isRealised());
     }
 
-    public function testWhenProductIsMarked_ThenRealisationIsTrue(): void
+    public function testWhenRealisationIsFalse_ThenToggleSetTrue(): void
     {
         $product = new Product();
         $product->toggleRealisation();
         $this->assertTrue($product->isRealised());
     }
 
-    public function testWhenProductIsMarked_ThenRealisationChanged(): void
+    public function testWhenRealisationIsSet_ThenCorrectRealisationIsGet(): void
     {
         $product = new Product();
-        # testWhenProductIsCreated_ThenRealisationIsFalse passing
-        # realisation is false
+        $product->setRealisation(true);
+        $this->assertTrue($product->isRealised());
+    }
+
+    public function testWhenRealisationIsTrue_ThenToggleSetFalse(): void
+    {
+        $product = new Product();
+        $product->setRealisation(true);
         $product->toggleRealisation();
-        # testWhenProductIsMarked_ThenRealisationIsTrue passing
-        # realisation is true
-        $toggled = $product->isRealised();
-        $product->toggleRealisation();
-        # is realisation false again?
-        $this->assertNotEquals($toggled, $product->isRealised());
+        $this->assertFalse($product->isRealised());
     }
 }
