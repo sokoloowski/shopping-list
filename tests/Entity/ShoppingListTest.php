@@ -22,7 +22,7 @@ class ShoppingListTest extends TestCase
         $list = new ShoppingList();
         $product = $this->createMock(Product::class);
         $list->addProduct($product);
-        $this->assertContains($product, $list->getItems());
+        $this->assertContains($product, $list->getProducts());
     }
 
     public function testWhenProductIsAddedToShoppingList_ThenProductShoppingListWillBeSet(): void
