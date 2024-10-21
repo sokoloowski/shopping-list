@@ -3,6 +3,7 @@
 namespace App\Tests\Entity;
 
 use App\Entity\Product;
+use App\Entity\ProductUnitEnum;
 use App\Entity\ShoppingList;
 use PHPUnit\Framework\TestCase;
 
@@ -58,5 +59,13 @@ class ProductTest extends TestCase
         $product->setRealisation(true);
         $product->toggleRealisation();
         $this->assertFalse($product->isRealised());
+    }
+
+    public function testWhenUnitIsSet_ThenCorrectUnitIsGet(): void
+    {
+        $product = new Product();
+        $unit = ProductUnitEnum::ML;
+        $product->setUnit($unit);
+        $this->assertEquals($unit, $product->getUnit());
     }
 }

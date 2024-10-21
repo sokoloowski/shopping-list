@@ -49,6 +49,7 @@ provide the basic entity (ID, username, roles and password) which can be extende
 - ID
 - name
 - quantity
+- unit
 - reference photo
 - realised (boolean)
 - list (ShoppingList)
