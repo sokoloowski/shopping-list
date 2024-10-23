@@ -14,8 +14,7 @@ jobs:
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
       - name: Create database
         run: |
-          pwd
-          ls -la
+          ls -la bin
           bin/console --env=test --no-interaction doctrine:schema:create
           bin/console --env=test --no-interaction doctrine:schema:update --force
           bin/console --env=test --no-interaction doctrine:fixtures:load
