@@ -62,4 +62,17 @@ class ShoppingListTest extends TestCase
         $list->setPurchaseDate($date);
         $this->assertEquals($date, $list->getPurchaseDate());
     }
+
+    public function testWhenProductIsRemovedFromList_ThenProductRemovesParentList()
+    {
+        $list = new ShoppingList();
+        $product = $this->createStub(Product::class);
+        $product->method("getShoppingList")
+            ->willReturn($list);
+        $list->addProduct($product);
+        $product->expects($this->once())
+            ->method("setShoppingList")
+            ->with(null);
+        $list->removeProduct($product);
+    }
 }
