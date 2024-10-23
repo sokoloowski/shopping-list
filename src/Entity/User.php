@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -30,6 +32,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    /**
+     * @var Collection<int, ShoppingList>
+     */
+    #[ORM\OneToMany(targetEntity: ShoppingList::class, mappedBy: 'owner', orphanRemoval: true)]
+    private Collection $shoppingLists;
+
+    public function __construct()
+    {
+        $this->shoppingLists = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -107,5 +120,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, ShoppingList>
+     */
+    public function getShoppingLists(): Collection
+    {
+        return $this->shoppingLists;
+    }
+
+    public function addShoppingList(ShoppingList $shoppingList): static
+    {
+        if (!$this->shoppingLists->contains($shoppingList)) {
+            $this->shoppingLists->add($shoppingList);
+            $shoppingList->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeShoppingList(ShoppingList $shoppingList): static
+    {
+        if ($this->shoppingLists->removeElement($shoppingList)) {
+            // set the owning side to null (unless already changed)
+            if ($shoppingList->getOwner() === $this) {
+                $shoppingList->setOwner(null);
+            }
+        }
+
+        return $this;
     }
 }
