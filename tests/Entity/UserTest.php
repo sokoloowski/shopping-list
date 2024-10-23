@@ -18,7 +18,7 @@ class UserTest extends TestCase
     public function testWhenUserVerifiedAtIsNull_ThenUserVerificationDateIsNull(): void
     {
         $user = new User();
-        $this->assertNull($user->getVerifiedDate());
+        $this->assertNull($user->getVerifiedAt());
     }
 
     public function testWhenUserIsRegistered_ThenRegisteredAtIsNotNull(): void
