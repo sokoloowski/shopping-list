@@ -125,7 +125,7 @@ class UserTest extends TestCase
     public function testWhenProductIsRemovedFromList_ThenProductRemovesParentList(): void
     {
         $user = new User();
-        $list = $this->createStub(ShoppingList::class);
+        $list = $this->createMock(ShoppingList::class);
         $list->method("getOwner")
             ->willReturn($user);
         $user->addShoppingList($list);
