@@ -27,9 +27,9 @@ frameworks like React or Angular, but with the use of Twig templates.
 ### `User`
 
 This entity will be provided with [Symfony's SecurityBundle](https://symfony.com/doc/current/security.html). It will
-provide the basic entity (ID, username, roles and password) which can be extended with additional fields:
+provide the basic entity (ID, e-mail, roles and password) which can be extended with additional fields:
 
-- e-mail address
+- username
 - registration date
 - verification code
 - verification date
