@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -33,6 +34,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $username = null;
+
+    #[ORM\Column]
+    private \DateTimeImmutable $registeredAt;
+
+    #[ORM\Column(length: 12)]
+    private string $verificationCode;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $verifiedAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $lastLogInDate = null;
+
     /**
      * @var Collection<int, ShoppingList>
      */
@@ -41,6 +57,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
+        $this->registeredAt = new \DateTimeImmutable();
+        $this->verificationCode = bin2hex(random_bytes(6));
         $this->shoppingLists = new ArrayCollection();
     }
 
@@ -120,6 +138,85 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): static
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    public function getRegisteredAt(): \DateTimeImmutable
+    {
+        return $this->registeredAt;
+    }
+
+    public function setRegisteredAt(\DateTimeImmutable $registeredAt): static
+    {
+        $this->registeredAt = $registeredAt;
+
+        return $this;
+    }
+
+    public function getVerificationCode(): ?string
+    {
+        return $this->verificationCode;
+    }
+
+    public function setVerificationCode(string $verificationCode): static
+    {
+        $this->verificationCode = $verificationCode;
+
+        return $this;
+    }
+
+    public function getVerifiedAt(): ?\DateTimeImmutable
+    {
+        return $this->verifiedAt;
+    }
+
+    private function setVerified(): static
+    {
+        $this->verifiedAt = new \DateTimeImmutable();
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->verifiedAt !== null;
+    }
+
+    public function verify(string $verificationCode): static
+    {
+        if ($verificationCode != $this->verificationCode) {
+            throw new BadRequestHttpException("Given verification code is incorrect");
+        }
+
+        return $this->setVerified();
+    }
+
+    public function getLastLogInDate(): ?\DateTimeImmutable
+    {
+        return $this->lastLogInDate;
+    }
+
+    private function setLastLogInDate(): static
+    {
+        $this->lastLogInDate = new \DateTimeImmutable();
+
+        return $this;
+    }
+
+    public function setLoggedIn(): static
+    {
+        return $this->setLastLogInDate();
     }
 
     /**
