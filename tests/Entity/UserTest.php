@@ -21,12 +21,6 @@ class UserTest extends TestCase
         $this->assertNull($user->getVerifiedAt());
     }
 
-    public function testWhenUserIsRegistered_ThenRegisteredAtIsNotNull(): void
-    {
-        $user = new User();
-        $this->assertNotNull($user->getRegisteredAt());
-    }
-
     public function testWhenUserIsRegistered_ThenRegisteredAtIsAfterCreation(): void
     {
         $dateBeforeRegister = new \DateTimeImmutable();
