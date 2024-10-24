@@ -66,7 +66,7 @@ class ShoppingListTest extends TestCase
     public function testWhenProductIsRemovedFromList_ThenProductRemovesParentList(): void
     {
         $list = new ShoppingList();
-        $product = $this->createStub(Product::class);
+        $product = $this->createMock(Product::class);
         $product->method("getShoppingList")
             ->willReturn($list);
         $list->addProduct($product);
