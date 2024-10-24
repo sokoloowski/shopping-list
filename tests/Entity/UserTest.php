@@ -122,7 +122,7 @@ class UserTest extends TestCase
         $this->assertNotNull($user->getLastLogInDate());
     }
 
-    public function testWhenProductIsRemovedFromList_ThenProductRemovesParentList()
+    public function testWhenProductIsRemovedFromList_ThenProductRemovesParentList(): void
     {
         $user = new User();
         $list = $this->createStub(ShoppingList::class);
