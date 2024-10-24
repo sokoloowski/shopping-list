@@ -164,7 +164,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getVerificationCode(): ?string
+    public function getVerificationCode(): string
     {
         return $this->verificationCode;
     }
