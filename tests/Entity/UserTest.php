@@ -34,12 +34,6 @@ class UserTest extends TestCase
         $this->assertLessThan(new \DateTimeImmutable(), $user->getRegisteredAt());
     }
 
-    public function testWhenUserIsRegistered_ThenVerificationCodeIsNotNull(): void
-    {
-        $user = new User();
-        $this->assertNotNull($user->getVerificationCode());
-    }
-
     public function testWhenUserIsRegistered_ThenVerificationCodeIsNotEmpty(): void
     {
         $user = new User();
