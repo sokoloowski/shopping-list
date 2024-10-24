@@ -52,6 +52,12 @@ class UserTest extends TestCase
         $this->assertNotEmpty($user->getVerificationCode());
     }
 
+    public function testWhenUserIsRegistered_ThenVerificationCodeHasCertainLength(): void
+    {
+        $user = new User();
+        $this->assertEquals(12, strlen($user->getVerificationCode()));
+    }
+
     public function testWhenWrongVerificationCodeUsed_ThenHttpExceptionIsThrown(): void
     {
         $user = new User();
@@ -112,7 +118,7 @@ class UserTest extends TestCase
         $user->setLoggedIn();
         $lastLogin = $user->getLastLogInDate();
         $user->setLoggedIn();
-        assertGreaterThan($lastLogin, $user->getLastLogInDate());
+        $this->assertGreaterThan($lastLogin, $user->getLastLogInDate());
     }
 
     public function testWhenUserRegister_ThenLastLogInDateIsNull(): void
