@@ -6,6 +6,7 @@ use App\Entity\ShoppingList;
 use App\Entity\User;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserTest extends TestCase
 {
@@ -133,5 +134,44 @@ class UserTest extends TestCase
             ->method("setOwner")
             ->with(null);
         $user->removeShoppingList($list);
+    }
+
+    public function testWhenUsernameIsSet_ThenCorrectUsernameIsGet(): void
+    {
+        $user = new User();
+        $name = "testusername";
+        $user->setUsername($name);
+        $this->assertEquals($name, $user->getUsername());
+    }
+
+    public function testWhenEmailIsSet_ThenCorrectEmailIsGet(): void
+    {
+        $user = new User();
+        $email = "test.me@example.com";
+        $user->setEmail($email);
+        $this->assertEquals($email, $user->getEmail());
+    }
+
+    public function testWhenRolesAreRemoved_ThenUserRoleIsReturnedAnyway(): void
+    {
+        $user = new User();
+        $user->setRoles([]);
+        $this->assertContains("ROLE_USER", $user->getRoles());
+    }
+
+    public function testWhenIdentifierIsGet_ThenIdentifierEqualsEmail(): void
+    {
+        $user = new User();
+        $email = "test.me@example.com";
+        $user->setEmail($email);
+        $this->assertEquals($email, $user->getUserIdentifier());
+    }
+
+    public function testWhenPasswordIsSet_ThenCorrectPasswordIsGet(): void
+    {
+        $user = new User();
+        $password = "thisShouldBeHashed";
+        $user->setPassword($password);
+        $this->assertEquals($password, $user->getPassword());
     }
 }

@@ -57,8 +57,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->registeredAt = new \DateTimeImmutable();
-        $this->verificationCode = bin2hex(random_bytes(6));
+        $this->setRegisteredAt(new \DateTimeImmutable());
+        $this->setVerificationCode(bin2hex(random_bytes(6)));
         $this->shoppingLists = new ArrayCollection();
     }
 
@@ -133,6 +133,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @see UserInterface
+     * @codeCoverageIgnore
      */
     public function eraseCredentials(): void
     {
