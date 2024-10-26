@@ -14,7 +14,7 @@ class ProductTest extends TestCase
         $list = $this->createMock(ShoppingList::class);
         $product = new Product();
         $product->setShoppingList($list);
-        $this->assertSame($list, $product->getShoppingList());
+        self::assertSame($list, $product->getShoppingList());
     }
 
     public function testWhenNameIsSet_ThenCorrectNameIsGet(): void
@@ -22,7 +22,7 @@ class ProductTest extends TestCase
         $product = new Product();
         $name = "[TEST] Some product name";
         $product->setName($name);
-        $this->assertEquals($name, $product->getName());
+        self::assertEquals($name, $product->getName());
     }
 
     public function testWhenQuantityIsSet_ThenCorrectQuantityIsGet(): void
@@ -30,27 +30,27 @@ class ProductTest extends TestCase
         $product = new Product();
         $quantity = 5;
         $product->setQuantity($quantity);
-        $this->assertEquals($quantity, $product->getQuantity());
+        self::assertEquals($quantity, $product->getQuantity());
     }
 
     public function testWhenProductIsCreated_ThenRealisationIsFalse(): void
     {
         $product = new Product();
-        $this->assertFalse($product->isRealised());
+        self::assertFalse($product->isRealised());
     }
 
     public function testWhenRealisationIsFalse_ThenToggleSetTrue(): void
     {
         $product = new Product();
         $product->toggleRealisation();
-        $this->assertTrue($product->isRealised());
+        self::assertTrue($product->isRealised());
     }
 
     public function testWhenRealisationIsSet_ThenCorrectRealisationIsGet(): void
     {
         $product = new Product();
         $product->setRealisation(true);
-        $this->assertTrue($product->isRealised());
+        self::assertTrue($product->isRealised());
     }
 
     public function testWhenRealisationIsTrue_ThenToggleSetFalse(): void
@@ -58,7 +58,7 @@ class ProductTest extends TestCase
         $product = new Product();
         $product->setRealisation(true);
         $product->toggleRealisation();
-        $this->assertFalse($product->isRealised());
+        self::assertFalse($product->isRealised());
     }
 
     public function testWhenUnitIsSet_ThenCorrectUnitIsGet(): void
@@ -66,6 +66,6 @@ class ProductTest extends TestCase
         $product = new Product();
         $unit = ProductUnitEnum::ML;
         $product->setUnit($unit);
-        $this->assertEquals($unit, $product->getUnit());
+        self::assertEquals($unit, $product->getUnit());
     }
 }

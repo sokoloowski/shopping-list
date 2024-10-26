@@ -6,51 +6,50 @@ use App\Entity\ShoppingList;
 use App\Entity\User;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserTest extends TestCase
 {
     public function testWhenUserVerifiedAtIsNull_ThenUserVerifiedIsFalse(): void
     {
         $user = new User();
-        $this->assertFalse($user->isVerified());
+        self::assertFalse($user->isVerified());
     }
 
     public function testWhenUserVerifiedAtIsNull_ThenUserVerificationDateIsNull(): void
     {
         $user = new User();
-        $this->assertNull($user->getVerifiedAt());
+        self::assertNull($user->getVerifiedAt());
     }
 
     public function testWhenUserIsRegistered_ThenRegisteredAtIsAfterCreation(): void
     {
         $dateBeforeRegister = new \DateTimeImmutable();
         $user = new User();
-        $this->assertGreaterThan($dateBeforeRegister, $user->getRegisteredAt());;
+        self::assertGreaterThan($dateBeforeRegister, $user->getRegisteredAt());;
     }
 
     public function testWhenUserIsRegistered_ThenRegisteredAtIsBeforeNow(): void
     {
         $user = new User();
-        $this->assertLessThan(new \DateTimeImmutable(), $user->getRegisteredAt());
+        self::assertLessThan(new \DateTimeImmutable(), $user->getRegisteredAt());
     }
 
     public function testWhenUserIsRegistered_ThenVerificationCodeIsNotEmpty(): void
     {
         $user = new User();
-        $this->assertNotEmpty($user->getVerificationCode());
+        self::assertNotEmpty($user->getVerificationCode());
     }
 
     public function testWhenUserIsRegistered_ThenVerificationCodeHasCertainLength(): void
     {
         $user = new User();
-        $this->assertEquals(12, strlen($user->getVerificationCode()));
+        self::assertEquals(12, strlen($user->getVerificationCode()));
     }
 
     public function testWhenWrongVerificationCodeUsed_ThenHttpExceptionIsThrown(): void
     {
         $user = new User();
-        $this->expectException(HttpException::class);
+        self::expectException(HttpException::class);
         $user->verify($user->getVerificationCode() . "_incorrect");
     }
 
@@ -58,7 +57,7 @@ class UserTest extends TestCase
     {
         $user = new User();
         $user->verify($user->getVerificationCode());
-        $this->assertNotNull($user->getVerifiedAt());
+        self::assertNotNull($user->getVerifiedAt());
     }
 
     public function testWhenCorrectVerificationCodeUsed_ThenVerificationDateIsAfterVerification(): void
@@ -66,21 +65,21 @@ class UserTest extends TestCase
         $user = new User();
         $dateBeforeVerification = new \DateTimeImmutable();
         $user->verify($user->getVerificationCode());
-        $this->assertGreaterThan($dateBeforeVerification, $user->getVerifiedAt());
+        self::assertGreaterThan($dateBeforeVerification, $user->getVerifiedAt());
     }
 
     public function testWhenCorrectVerificationCodeUsed_ThenVerificationDateIsBeforeNow(): void
     {
         $user = new User();
         $user->verify($user->getVerificationCode());
-        $this->assertLessThan(new \DateTimeImmutable(), $user->getVerifiedAt());
+        self::assertLessThan(new \DateTimeImmutable(), $user->getVerifiedAt());
     }
 
     public function testWhenUserIsVerified_ThenVerificationIsAfterRegistration(): void
     {
         $user = new User();
         $user->verify($user->getVerificationCode());
-        $this->assertGreaterThan($user->getRegisteredAt(), $user->getVerifiedAt());
+        self::assertGreaterThan($user->getRegisteredAt(), $user->getVerifiedAt());
     }
 
     public function testWhenUserCreatesNewShoppingList_ThenShoppingListIsAddedToUser(): void
@@ -88,7 +87,7 @@ class UserTest extends TestCase
         $user = new User();
         $list = $this->createMock(ShoppingList::class);
         $user->addShoppingList($list);
-        $this->assertContains($list, $user->getShoppingLists());
+        self::assertContains($list, $user->getShoppingLists());
     }
 
     public function testWhenUserCreatesNewShoppingList_ThenShoppingListOwnerWillBeSet(): void
@@ -107,20 +106,20 @@ class UserTest extends TestCase
         $user->setLoggedIn();
         $lastLogin = $user->getLastLogInDate();
         $user->setLoggedIn();
-        $this->assertGreaterThan($lastLogin, $user->getLastLogInDate());
+        self::assertGreaterThan($lastLogin, $user->getLastLogInDate());
     }
 
     public function testWhenUserRegister_ThenLastLogInDateIsNull(): void
     {
         $user = new User();
-        $this->assertNull($user->getLastLogInDate());
+        self::assertNull($user->getLastLogInDate());
     }
 
     public function testWhenUserLogIn_ThenLastLogInDateIsNotNull(): void
     {
         $user = new User();
         $user->setLoggedIn();
-        $this->assertNotNull($user->getLastLogInDate());
+        self::assertNotNull($user->getLastLogInDate());
     }
 
     public function testWhenProductIsRemovedFromList_ThenProductRemovesParentList(): void
@@ -141,7 +140,7 @@ class UserTest extends TestCase
         $user = new User();
         $name = "testusername";
         $user->setUsername($name);
-        $this->assertEquals($name, $user->getUsername());
+        self::assertEquals($name, $user->getUsername());
     }
 
     public function testWhenEmailIsSet_ThenCorrectEmailIsGet(): void
@@ -149,14 +148,14 @@ class UserTest extends TestCase
         $user = new User();
         $email = "test.me@example.com";
         $user->setEmail($email);
-        $this->assertEquals($email, $user->getEmail());
+        self::assertEquals($email, $user->getEmail());
     }
 
     public function testWhenRolesAreRemoved_ThenUserRoleIsReturnedAnyway(): void
     {
         $user = new User();
         $user->setRoles([]);
-        $this->assertContains("ROLE_USER", $user->getRoles());
+        self::assertContains("ROLE_USER", $user->getRoles());
     }
 
     public function testWhenIdentifierIsGet_ThenIdentifierEqualsEmail(): void
@@ -164,7 +163,7 @@ class UserTest extends TestCase
         $user = new User();
         $email = "test.me@example.com";
         $user->setEmail($email);
-        $this->assertEquals($email, $user->getUserIdentifier());
+        self::assertEquals($email, $user->getUserIdentifier());
     }
 
     public function testWhenPasswordIsSet_ThenCorrectPasswordIsGet(): void
@@ -172,6 +171,6 @@ class UserTest extends TestCase
         $user = new User();
         $password = "thisShouldBeHashed";
         $user->setPassword($password);
-        $this->assertEquals($password, $user->getPassword());
+        self::assertEquals($password, $user->getPassword());
     }
 }

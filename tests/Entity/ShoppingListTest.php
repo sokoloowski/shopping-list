@@ -14,7 +14,7 @@ class ShoppingListTest extends TestCase
         $user = $this->createMock(User::class);
         $list = new ShoppingList();
         $list->setOwner($user);
-        $this->assertSame($user, $list->getOwner());
+        self::assertSame($user, $list->getOwner());
     }
 
     public function testWhenProductIsAddedToShoppingList_ThenProductIsAddedToItems(): void
@@ -22,7 +22,7 @@ class ShoppingListTest extends TestCase
         $list = new ShoppingList();
         $product = $this->createMock(Product::class);
         $list->addProduct($product);
-        $this->assertContains($product, $list->getProducts());
+        self::assertContains($product, $list->getProducts());
     }
 
     public function testWhenProductIsAddedToShoppingList_ThenProductShoppingListWillBeSet(): void
@@ -38,13 +38,13 @@ class ShoppingListTest extends TestCase
     public function testWhenShoppingListIsCreated_ThenNameIsNotNull(): void
     {
         $list = new ShoppingList();
-        $this->assertNotNull($list->getName());
+        self::assertNotNull($list->getName());
     }
 
     public function testWhenShoppingListIsCreated_ThenNameIsNotEmpty(): void
     {
         $list = new ShoppingList();
-        $this->assertNotEmpty($list->getName());
+        self::assertNotEmpty($list->getName());
     }
 
     public function testWhenNameIsSet_ThenCorrectNameIsGet(): void
@@ -52,7 +52,7 @@ class ShoppingListTest extends TestCase
         $list = new ShoppingList();
         $name = "[TEST] Some shopping list name";
         $list->setName($name);
-        $this->assertEquals($name, $list->getName());
+        self::assertEquals($name, $list->getName());
     }
 
     public function testWhenPurchaseDateIsSet_ThenCorrectDateIsGet(): void
@@ -60,7 +60,7 @@ class ShoppingListTest extends TestCase
         $list = new ShoppingList();
         $date = new \DateTimeImmutable();
         $list->setPurchaseDate($date);
-        $this->assertEquals($date, $list->getPurchaseDate());
+        self::assertEquals($date, $list->getPurchaseDate());
     }
 
     public function testWhenProductIsRemovedFromList_ThenProductRemovesParentList(): void
