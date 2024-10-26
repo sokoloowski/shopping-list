@@ -25,7 +25,7 @@ class UserTest extends TestCase
     {
         $dateBeforeRegister = new \DateTimeImmutable();
         $user = new User();
-        self::assertGreaterThan($dateBeforeRegister, $user->getRegisteredAt());;
+        self::assertGreaterThan($dateBeforeRegister, $user->getRegisteredAt());
     }
 
     public function testWhenUserIsRegistered_ThenRegisteredAtIsBeforeNow(): void
