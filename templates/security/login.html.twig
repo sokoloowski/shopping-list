@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+    <div class="w-50 m-auto">
+        <div class="mb-3 text-center">
+            <i class="bi bi-receipt-cutoff" style="font-size: 120px"></i>
+            <h1>Shopping List</h1>
+        </div>
+
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        {% if app.user %}
+            <div class="alert alert-warning">
+                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">logout</a>
+            </div>
+        {% endif %}
+
+        <form name="login_form" method="post" class="card p-3">
+            <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
+            <div class="mb-3">
+                <label for="username">Email</label>
+                <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control"
+                       autocomplete="email" required autofocus>
+            </div>
+
+            <div class="mb-3">
+                <label for="password">Password</label>
+                <input type="password" name="_password" id="password" class="form-control"
+                       autocomplete="current-password"
+                       required>
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            {#
+            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+            See https://symfony.com/doc/current/security/remember_me.html
+
+            <div class="checkbox mb-3">
+                <input type="checkbox" name="_remember_me" id="_remember_me">
+                <label for="_remember_me">Remember me</label>
+            </div>
+            #}
+
+            <button class="btn btn-lg btn-primary mb-3" type="submit">
+                Sign in
+            </button>
+
+            <a href="#" class="text-secondary text-center">
+                Sign up
+            </a>
+        </form>
+    </div>
+{% endblock %}
