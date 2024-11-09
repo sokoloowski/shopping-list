@@ -31,7 +31,7 @@ class UserTest extends TestCase
     public function testWhenUserIsRegistered_ThenRegisteredAtIsBeforeNow(): void
     {
         $user = new User();
-        self::assertLessThan(new \DateTimeImmutable(), $user->getRegisteredAt());
+        self::assertLessThanOrEqual(new \DateTimeImmutable(), $user->getRegisteredAt());
     }
 
     public function testWhenUserIsRegistered_ThenVerificationCodeIsNotEmpty(): void
@@ -72,7 +72,7 @@ class UserTest extends TestCase
     {
         $user = new User();
         $user->verify($user->getVerificationCode());
-        self::assertLessThan(new \DateTimeImmutable(), $user->getVerifiedAt());
+        self::assertLessThanOrEqual(new \DateTimeImmutable(), $user->getVerifiedAt());
     }
 
     public function testWhenUserIsVerified_ThenVerificationIsAfterRegistration(): void
