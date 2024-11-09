@@ -109,3 +109,48 @@ The application should have the following controllers:
 This application is under heavy development. The above description is only a proposal and can be changed during the
 course. The application should be developed in a modular way, so that it is easy to add new functionalities in the
 future.
+
+## Prerequisites
+
+- PHP 8.2
+- Composer
+- Symfony CLI
+
+```bash
+sudo add-apt-repository ppa:ondrej/php
+sudo apt update
+sudo apt install php8.2 php8.2-{ctype,curl,iconv,intl,mbstring,pdo,simplexml,sqlite3,tokenizer,xdebug,xml,zip} composer
+curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash
+sudo apt install symfony-cli
+```
+
+## Project setup
+
+```bash
+symfony composer install
+symfony check:requirements
+```
+
+## Run tests
+
+### Prepare test environment
+
+```bash
+symfony console --env=test --no-interaction doctrine:schema:create
+symfony console --env=test --no-interaction doctrine:schema:update --force
+symfony console --env=test --no-interaction doctrine:fixtures:load
+```
+
+### Run static code analysis
+
+```bash
+symfony php vendor/bin/phpstan analyse
+```
+
+**Note:** static code analysis can be slow on WSL2 environment.
+
+### Run test suite
+
+```bash
+symfony php bin/phpunit
+```
