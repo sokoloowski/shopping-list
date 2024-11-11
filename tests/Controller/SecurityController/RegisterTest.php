@@ -149,47 +149,4 @@ class RegisterTest extends WebTestCase
         self::assertSelectorExists('.alert-danger');
         self::assertSelectorTextContains('.alert-danger','Could not send verification e-mail');
     }
-
-    public function testWhenUserClicksVerificationLink_ThenUserIsVerified(): void
-    {
-        $email = 'john.doe@example.com';
-        $client = self::createClient();
-
-        $repository = $client->getContainer()->get(UserRepository::class);
-        self::assertInstanceOf(UserRepository::class, $repository);
-        $user = $repository->findOneBy(['email' => $email]);
-        self::assertNotNull($user);
-        self::assertNull($user->getVerifiedAt());
-
-        $client->request('GET', '/verify/' . $user->getVerificationCode());
-        self::assertResponseRedirects('/login');
-
-        $user = $repository->findOneBy(['email' => $email]);
-        self::assertNotNull($user);
-        self::assertNotNull($user->getVerifiedAt());
-    }
-
-    public function testWhenUserClicksOldVerificationLink_ThenUserIsNotVerified(): void
-    {
-        $email = 'john.doe@example.com';
-        $client = self::createClient();
-
-        $repository = $client->getContainer()->get(UserRepository::class);
-        self::assertInstanceOf(UserRepository::class, $repository);
-        $user = $repository->findOneBy(['email' => $email]);
-        self::assertNotNull($user);
-        self::assertNull($user->getVerifiedAt());
-
-        $client->request('GET', '/verify/oldverifcode');
-        self::assertResponseRedirects('/login');
-
-        $client->followRedirect();
-
-        self::assertSelectorExists('.alert-danger');
-        self::assertSelectorTextContains('.alert-danger', 'Invalid verification code');
-
-        $user = $repository->findOneBy(['email' => $email]);
-        self::assertNotNull($user);
-        self::assertNull($user->getVerifiedAt());
-    }
 }

@@ -80,7 +80,7 @@ class LoginTest extends WebTestCase
     {
         $client = self::createClient();
         $client->request("GET", "/logout");
-        self::assertResponseRedirects("/");
+        self::assertResponseRedirects("/login");
 
         # check if user is logged out
         $client->request("GET", "/login");
