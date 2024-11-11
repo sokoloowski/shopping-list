@@ -126,7 +126,7 @@ class RegisterTest extends WebTestCase
     public function testWhenUserSignsUpAndErrorIsThrown_ThenUserIsRemoved(): void
     {
         self::markTestIncomplete('Mock is not mocking');
-        $client = self::createClient();
+        $client = self::createClient(); // @phpstan-ignore-line I know it doesn't work
         $email = 'test@example.com';
         $password = '$tr0ngP4$$w0rd';
 
@@ -147,7 +147,7 @@ class RegisterTest extends WebTestCase
         $client->followRedirect();
 
         self::assertSelectorExists('.alert-danger');
-        self::assertStringContainsString('Could not send verification e-mail', $client->getResponse()->getContent());
+        self::assertSelectorTextContains('.alert-danger','Could not send verification e-mail');
     }
 
     public function testWhenUserClicksVerificationLink_ThenUserIsVerified(): void

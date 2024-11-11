@@ -11,6 +11,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * @phpstan-ignore-next-line
+ * because it is not happy with code from Symfony docs
+ */
 class RegisterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
