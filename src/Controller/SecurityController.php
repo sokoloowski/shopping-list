@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -87,11 +88,11 @@ class SecurityController extends AbstractController
     }
 
     #[Route(path: '/verify/{code}', name: 'app_verify')]
-    public function verify(string $code): Response
+    public function verify(string $code, Request $request): Response
     {
         $user = $this->userRepository->findOneBy(['verificationCode' => $code]);
 
-        if ($user === null) {
+        if ($user === null or $this->getUser() !== $user) {
             $this->addFlash('danger', 'Invalid verification code');
             return $this->redirectToRoute('app_login');
         }
