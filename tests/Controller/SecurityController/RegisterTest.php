@@ -19,28 +19,28 @@ class RegisterTest extends WebTestCase
     public function testWhenOnRegisterPage_ThenEmailInputIsShown(): void
     {
         $client = self::createClient();
-        $crawler = $client->request('GET', '/register');
+        $client->request('GET', '/register');
         self::assertSelectorExists('input[type=email]');
     }
 
     public function testWhenOnRegisterPage_ThenPasswordInputIsShown(): void
     {
         $client = self::createClient();
-        $crawler = $client->request('GET', '/register');
+        $client->request('GET', '/register');
         self::assertSelectorCount(2, 'input[type=password]');
     }
 
     public function testWhenOnRegisterPage_ThenSubmitButtonIsShown(): void
     {
         $client = self::createClient();
-        $crawler = $client->request('GET', '/register');
+        $client->request('GET', '/register');
         self::assertSelectorExists('[type=submit]');
     }
 
     public function testWhenOnRegisterPage_ThenLoginButtonIsShown(): void
     {
         $client = self::createClient();
-        $crawler = $client->request('GET', '/register');
+        $client->request('GET', '/register');
         self::assertSelectorExists('a[href="/login"]');
     }
 
@@ -48,7 +48,7 @@ class RegisterTest extends WebTestCase
     {
         $password = '$tr0ngP4$$w0rd';
         $client = self::createClient();
-        $crawler = $client->request('GET', '/register');
+        $client->request('GET', '/register');
         $client->submitForm('Sign up', [
             'register[email]' => 'test@example.com',
             'register[password][first]' => $password,
@@ -63,7 +63,7 @@ class RegisterTest extends WebTestCase
     {
         $password = '$tr0ngP4$$w0rd';
         $client = self::createClient();
-        $crawler = $client->request('GET', '/register');
+        $client->request('GET', '/register');
         $client->submitForm('Sign up', [
             'register[email]' => 'test@example.com',
             'register[password][first]' => $password,
@@ -85,7 +85,7 @@ class RegisterTest extends WebTestCase
         $email = 'test@example.com';
         $password = '$tr0ngP4$$w0rd';
 
-        $crawler = $client->request('GET', '/register');
+        $client->request('GET', '/register');
         $client->submitForm('Sign up', [
             'register[email]' => $email,
             'register[password][first]' => $password,
@@ -106,7 +106,7 @@ class RegisterTest extends WebTestCase
         $email = 'test@example.com';
         $password = '$tr0ngP4$$w0rd';
 
-        $crawler = $client->request('GET', '/register');
+        $client->request('GET', '/register');
         $client->submitForm('Sign up', [
             'register[email]' => $email,
             'register[password][first]' => $password,
