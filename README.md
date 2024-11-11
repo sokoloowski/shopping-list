@@ -73,36 +73,36 @@ The application should have the following controllers:
 
 ### `SecurityController`
 
-- `/login` - displays the login form
-- `/register` - displays the registration form
-- `/logout` - logs the user out
-- `/forgotPassword` - displays the form for resetting the password
-- `/verify/{code}` - verifies the user's e-mail address
-- `/changePassword/{code}` - displays the form for changing the password
+- [x] `/login` - displays the login form
+- [x] `/register` - displays the registration form
+- [x] `/logout` - logs the user out
+- [x] `/verify/{code}` - verifies the user's e-mail address
+- [ ] `/forgotPassword` - displays the form for resetting the password
+- [ ] `/changePassword/{code}` - displays the form for changing the password
 
 ### `OverviewController`
 
-- `/` - displays the list of shopping lists
+- [ ] `/` - displays the list of shopping lists
 
 ### `ShoppingListController`
 
-- `/new` - displays the form for adding a new shopping list
-- `/{id}` - displays the details of the selected shopping list
-- `/{id}/edit` - displays the form for editing the selected shopping list
-- `/{id}/delete` - deletes the selected shopping list
+- [ ] `/new` - displays the form for adding a new shopping list
+- [ ] `/{id}` - displays the details of the selected shopping list
+- [ ] `/{id}/edit` - displays the form for editing the selected shopping list
+- [ ] `/{id}/delete` - deletes the selected shopping list
 
 ### `ProductController`
 
-- `/{listId}/new` - displays the form for adding a new product to the list
-- `/{listId}/{id}` - displays the details of the selected product
-- `/{listId}/{id}/edit` - displays the form for editing the selected product
-- `/{listId}/{id}/delete` - deletes the selected product
-- `/{listId}/{id}/toggle` - marks the selected product as (un)purchased
-- `/{listId}/{id}/photo` - displays the photo of the selected product
+- [ ] `/{listId}/new` - displays the form for adding a new product to the list
+- [ ] `/{listId}/{id}` - displays the details of the selected product
+- [ ] `/{listId}/{id}/edit` - displays the form for editing the selected product
+- [ ] `/{listId}/{id}/delete` - deletes the selected product
+- [ ] `/{listId}/{id}/toggle` - marks the selected product as (un)purchased
+- [ ] `/{listId}/{id}/photo` - displays the photo of the selected product
 
 ### `SettingsController`
 
-- `/settings` - displays the form for changing user settings
+- [ ] `/settings` - displays the form for changing user settings
 
 ## Additional information
 

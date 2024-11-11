@@ -13,6 +13,12 @@
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
 
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+
         {% if app.user %}
             <div class="alert alert-warning">
                 You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">logout</a>
@@ -50,7 +56,7 @@
                 Sign in
             </button>
 
-            <a href="#" class="text-secondary text-center">
+            <a href="{{ path('app_register') }}" class="text-secondary text-center">
                 Sign up
             </a>
         </form>

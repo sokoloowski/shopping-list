@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Tests\Controller;
+namespace App\Tests\Controller\SecurityController;
 
 use App\DataFixtures\UserFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class SecurityControllerTest extends WebTestCase
+class LoginTest extends WebTestCase
 {
     public function testWhenClientWantsToLogIn_ThenLoginPageExists(): void
     {
@@ -39,7 +39,7 @@ class SecurityControllerTest extends WebTestCase
     {
         $client = self::createClient();
         $crawler = $client->request("GET", "/login");
-        self::assertSelectorExists("a");
+        self::assertSelectorExists("a[href='/register']");
     }
 
     public function testWhenUserTriesToUseWrongPassword_ThenMessageIsShown(): void

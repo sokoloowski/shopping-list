@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register!{% endblock %}
+
+{% block body %}
+    <div class="w-50 m-auto">
+        <div class="mb-3 text-center">
+            <i class="bi bi-receipt-cutoff" style="font-size: 120px"></i>
+            <h1>Shopping List</h1>
+        </div>
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+
+        {% if app.user %}
+            <div class="alert alert-warning">
+                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">logout</a>
+            </div>
+        {% endif %}
+
+        <form name="login_form" method="post" class="card p-3">
+            <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
+            {{ form_row(form.username) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.password.first) }}
+            {{ form_row(form.password.second) }}
+
+            {{ form_row(form._token) }}
+
+            <button class="btn btn-lg btn-primary mb-3" type="submit">
+                Sign up
+            </button>
+
+            <a href="{{ path('app_login') }}" class="text-secondary text-center">
+                Sign in
+            </a>
+        </form>
+    </div>
+{% endblock %}
