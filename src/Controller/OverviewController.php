@@ -11,8 +11,6 @@ class OverviewController extends AbstractController
     #[Route('/', name: 'app_overview')]
     public function overview(): Response
     {
-        return $this->render('overview/overview.html.twig', [
-            'controller_name' => 'OverviewController',
-        ]);
+        return $this->render('overview/overview.html.twig');
     }
 }

@@ -82,7 +82,7 @@ The application should have the following controllers:
 
 ### `OverviewController`
 
-- [ ] `/` - displays the list of shopping lists
+- [x] `/` - displays the list of shopping lists
 
 ### `ShoppingListController`
 
