@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\RegisterType;
 use App\Repository\UserRepository;
 use App\Service\VerificationMailerService;
@@ -9,7 +10,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -52,12 +52,14 @@ class SecurityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
 
-            $hashedPassword = $this->passwordHasher->hashPassword($user, $user->getPassword());
+            assert($user instanceof User);
+
+            $hashedPassword = $this->passwordHasher->hashPassword($user, $user->getPassword() ?? '');
             $this->userRepository->upgradePassword($user, $hashedPassword);
 
             try {
                 $this->verificationMailer->send(
-                    $user->getEmail(),
+                    $user->getEmail() ?? '',
                     $user->getVerificationCode(),
                     $mailer
                 );
