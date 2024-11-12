@@ -135,6 +135,7 @@ class RegisterTest extends WebTestCase
         $mock->method('send')
             ->willThrowException(new TransportException());
         $client->getContainer()->set(VerificationMailerService::class, $mock);
+        $client->request('GET', '/register');
 
         $this->expectException(TransportException::class);
         $client->submitForm('Sign up', [
