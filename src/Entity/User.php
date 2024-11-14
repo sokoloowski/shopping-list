@@ -62,6 +62,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->shoppingLists = new ArrayCollection();
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getId(): ?int
     {
         return $this->id;
