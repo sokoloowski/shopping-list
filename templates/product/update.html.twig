@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProductController!{% endblock %}
+
+{% block body %}
+    {% if form.shoppingList is defined %}
+        <h1>Edit your product</h1>
+    {% else %}
+        <h1>Add a new product to {{ list.name }}</h1>
+    {% endif %}
+    {{ form_start(form) }}
+    <div class="mb-3">
+        {{ form_row(form.name) }}
+    </div>
+    <div class="row">
+        <div class="col-8">
+            {{ form_row(form.quantity) }}
+        </div>
+        <div class="col-4">
+            {{ form_row(form.unit) }}
+        </div>
+    </div>
+    {% if form.shoppingList is defined %}
+        <div class="mb-3">
+            {{ form_row(form.shoppingList) }}
+        </div>
+    {% endif %}
+    <a href="{{ path('app_list_read', { list: list.id }) }}" class="btn btn-outline-secondary">Cancel</a>
+    <button type="submit" class="btn btn-primary">Save</button>
+    {{ form_end(form) }}
+{% endblock %}

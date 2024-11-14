@@ -93,11 +93,11 @@ The application should have the following controllers:
 
 ### `ProductController`
 
-- [ ] `/list/{listId}/product/new` - displays the form for adding a new product to the list
+- [x] `/list/{listId}/product/new` - displays the form for adding a new product to the list
 - [ ] ~~`/list/{listId}/product/{id}` - displays the details of the selected product~~
-- [ ] `/list/{listId}/product/{id}/edit` - displays the form for editing the selected product
-- [ ] `/list/{listId}/product/{id}/delete` - deletes the selected product
-- [ ] `/list/{listId}/product/{id}/toggle` - marks the selected product as (un)purchased
+- [x] `/list/{listId}/product/{id}/edit` - displays the form for editing the selected product
+- [x] `/list/{listId}/product/{id}/delete` - deletes the selected product
+- [x] `/list/{listId}/product/{id}/toggle` - marks the selected product as (un)purchased
 - [ ] `/list/{listId}/product/{id}/photo` - displays the photo of the selected product
 
 ### `SettingsController`

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProductController!{% endblock %}
+
+{% block body %}
+    <h1>Do you really want to delete this product?</h1>
+    {{ form_start(form) }}
+    <a href="{{ path('app_list_read', { list: list.id }) }}" class="btn btn-outline-secondary">Cancel</a>
+    {{ form_widget(form.deleteBtn) }}
+    {{ form_end(form) }}
+{% endblock %}
