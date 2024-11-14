@@ -9,38 +9,40 @@ use Symfony\Component\Mailer\Exception\TransportException;
 
 class RegisterTest extends WebTestCase
 {
+    const URL = '/register';
+
     public function testWhenClientWantsToRegister_ThenRegisterPageExists(): void
     {
         $client = self::createClient();
-        $client->request('GET', '/register');
+        $client->request('GET', self::URL);
         self::assertResponseIsSuccessful();
     }
 
     public function testWhenOnRegisterPage_ThenEmailInputIsShown(): void
     {
         $client = self::createClient();
-        $client->request('GET', '/register');
+        $client->request('GET', self::URL);
         self::assertSelectorExists('input[type=email]');
     }
 
     public function testWhenOnRegisterPage_ThenPasswordInputIsShown(): void
     {
         $client = self::createClient();
-        $client->request('GET', '/register');
+        $client->request('GET', self::URL);
         self::assertSelectorCount(2, 'input[type=password]');
     }
 
     public function testWhenOnRegisterPage_ThenSubmitButtonIsShown(): void
     {
         $client = self::createClient();
-        $client->request('GET', '/register');
+        $client->request('GET', self::URL);
         self::assertSelectorExists('[type=submit]');
     }
 
     public function testWhenOnRegisterPage_ThenLoginButtonIsShown(): void
     {
         $client = self::createClient();
-        $client->request('GET', '/register');
+        $client->request('GET', self::URL);
         self::assertSelectorExists('a[href="/login"]');
     }
 
@@ -48,7 +50,7 @@ class RegisterTest extends WebTestCase
     {
         $password = '$tr0ngP4$$w0rd';
         $client = self::createClient();
-        $client->request('GET', '/register');
+        $client->request('GET', self::URL);
         $client->submitForm('Sign up', [
             'register[email]' => 'test@example.com',
             'register[password][first]' => $password,
@@ -63,7 +65,7 @@ class RegisterTest extends WebTestCase
     {
         $password = '$tr0ngP4$$w0rd';
         $client = self::createClient();
-        $client->request('GET', '/register');
+        $client->request('GET', self::URL);
         $client->submitForm('Sign up', [
             'register[email]' => 'test@example.com',
             'register[password][first]' => $password,
@@ -85,7 +87,7 @@ class RegisterTest extends WebTestCase
         $email = 'test@example.com';
         $password = '$tr0ngP4$$w0rd';
 
-        $client->request('GET', '/register');
+        $client->request('GET', self::URL);
         $client->submitForm('Sign up', [
             'register[email]' => $email,
             'register[password][first]' => $password,
@@ -106,7 +108,7 @@ class RegisterTest extends WebTestCase
         $email = 'test@example.com';
         $password = '$tr0ngP4$$w0rd';
 
-        $client->request('GET', '/register');
+        $client->request('GET', self::URL);
         $client->submitForm('Sign up', [
             'register[email]' => $email,
             'register[password][first]' => $password,
@@ -135,7 +137,7 @@ class RegisterTest extends WebTestCase
         $mock->method('send')
             ->willThrowException(new TransportException());
         $client->getContainer()->set(VerificationMailerService::class, $mock);
-        $client->request('GET', '/register');
+        $client->request('GET', self::URL);
 
         $this->expectException(TransportException::class);
         $client->submitForm('Sign up', [
@@ -149,5 +151,13 @@ class RegisterTest extends WebTestCase
 
         self::assertSelectorExists('.alert-danger');
         self::assertSelectorTextContains('.alert-danger','Could not send verification e-mail');
+    }
+
+    public function testWhenAuthorizedUserClicksOnLink_ThenLinkIsNotDummy(): void
+    {
+        $client = self::createClient();
+        $client->request('GET', self::URL);
+
+        self::assertSelectorNotExists('a[href="#"]:not([role="button"])');
     }
 }

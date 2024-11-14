@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ReadTest extends WebTestCase
 {
+    const URL = '/list/1';
+
     private function getUser(KernelBrowser $client, string $email = 'jan.kowalski@example.com'): User
     {
         /** @var UserRepository $repository */
@@ -25,7 +27,7 @@ class ReadTest extends WebTestCase
     public function testWhenUserWantsToDisplayList_ThenUserHasToBeAuthenticated(): void
     {
         $client = self::createClient();
-        $client->request('GET', '/list/1');
+        $client->request('GET', self::URL);
         self::assertResponseRedirects('/login');
     }
 
@@ -48,7 +50,7 @@ class ReadTest extends WebTestCase
         $client = self::createClient();
         $user = $this->getUser($client);
         $client->loginUser($user);
-        $client->request('GET', '/list/1');
+        $client->request('GET', self::URL);
         self::assertResponseIsSuccessful();
 
         self::assertSelectorTextContains('.col>.card .btn-success', 'In your cart');
@@ -58,5 +60,15 @@ class ReadTest extends WebTestCase
 
         self::assertSelectorTextContains('h1~div>.btn-primary', 'Edit');
         self::assertSelectorTextContains('h1~div>.btn-danger', 'Delete');
+    }
+
+    public function testWhenAuthorizedUserClicksOnLink_ThenLinkIsNotDummy(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
+
+        self::assertSelectorNotExists('a[href="#"]:not([role="button"])');
     }
 }

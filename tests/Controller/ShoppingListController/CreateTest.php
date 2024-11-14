@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class CreateTest extends WebTestCase
 {
+    const URL = '/list/new';
+
     private function getUser(KernelBrowser $client, string $email = 'jan.kowalski@example.com'): User
     {
         /** @var UserRepository $repository */
@@ -24,7 +26,7 @@ class CreateTest extends WebTestCase
     public function testWhenUserWantsToCreateList_ThenUserHasToBeAuthenticated(): void
     {
         $client = self::createClient();
-        $client->request('GET', '/list/new');
+        $client->request('GET', self::URL);
         self::assertResponseRedirects('/login');
     }
 
@@ -33,7 +35,7 @@ class CreateTest extends WebTestCase
         $client = self::createClient();
         $user = $this->getUser($client);
         $client->loginUser($user);
-        $client->request('GET', '/list/new');
+        $client->request('GET', self::URL);
         self::assertResponseIsSuccessful();
 
         self::assertSelectorTextContains('h1', 'Create new shopping list');
@@ -61,7 +63,7 @@ class CreateTest extends WebTestCase
         $client->request('GET', '/');
         self::assertAnySelectorTextNotContains('.card-header>h2', $listName);
 
-        $client->request('GET', '/list/new');
+        $client->request('GET', self::URL);
 
         $client->submitForm('Save', [
             'shopping_list[name]' => $listName,
@@ -72,5 +74,15 @@ class CreateTest extends WebTestCase
 
         $client->request('GET', '/');
         self::assertAnySelectorTextContains('.card-header>h2', $listName);
+    }
+
+    public function testWhenAuthorizedUserClicksOnLink_ThenLinkIsNotDummy(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
+
+        self::assertSelectorNotExists('a[href="#"]:not([role="button"])');
     }
 }

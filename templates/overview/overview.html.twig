@@ -5,7 +5,7 @@
 {% block body %}
     <div class="d-flex flex-row align-items-center justify-content-between mb-3">
     <h1>Hello, {{ app.user.username }}!</h1>
-<a href="#" class="btn btn-primary">Create new list <i class="bi bi-plus"></i></a>
+<a href="{{ path('app_list_create') }}" class="btn btn-primary">Create new list <i class="bi bi-plus"></i></a>
     </div>
     <div class="row row-cols-1 row-cols-md-4 g-4">
         {% for list in app.user.shoppingLists %}
@@ -17,7 +17,7 @@
                     <div class="card-body">
                         <p>{{ list.products|length }} product{{ list.products|length != 1 ? "s" : "" }}</p>
                         <p>Realisation date: {{ list.purchaseDate|date("Y-m-d") }}</p>
-                        <a href="#" class="btn btn-primary">Details&nbsp;&raquo;</a>
+                        <a href="{{ path('app_list_read', {list: list.id}) }}" class="btn btn-primary">Details&nbsp;&raquo;</a>
                     </div>
                 </div>
             </div>

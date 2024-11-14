@@ -14,10 +14,12 @@ class ToggleTest extends WebTestCase
 {
     private function getUser(KernelBrowser $client, string $email = 'jan.kowalski@example.com'): User
     {
+        /** @var UserRepository $repository */
         $repository = $client->getContainer()->get(UserRepository::class);
-        assert($repository instanceof UserRepository);
+
+        /** @var User $user */
         $user = $repository->findOneBy(['email' => $email]);
-        assert($user instanceof User);
+
         return $user;
     }
 

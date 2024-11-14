@@ -12,19 +12,23 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CreateTest extends WebTestCase
 {
+    const URL = '/list/1/product/new';
+
     private function getUser(KernelBrowser $client, string $email = 'jan.kowalski@example.com'): User
     {
+        /** @var UserRepository $repository */
         $repository = $client->getContainer()->get(UserRepository::class);
-        assert($repository instanceof UserRepository);
+
+        /** @var User $user */
         $user = $repository->findOneBy(['email' => $email]);
-        assert($user instanceof User);
+
         return $user;
     }
 
     public function testWhenUserWantsToCreateProduct_ThenUserHasToBeAuthenticated(): void
     {
         $client = self::createClient();
-        $client->request('GET', '/list/1/product/new');
+        $client->request('GET', self::URL);
         self::assertResponseRedirects('/login');
     }
 
@@ -33,7 +37,7 @@ class CreateTest extends WebTestCase
         $client = self::createClient();
         $user = $this->getUser($client);
         $client->loginUser($user);
-        $client->request('GET', '/list/1/product/new');
+        $client->request('GET', self::URL);
         self::assertResponseIsSuccessful();
 
         self::assertSelectorTextContains('h1', 'Add a new product to');
@@ -73,7 +77,7 @@ class CreateTest extends WebTestCase
         $client->request('GET', '/list/1');
         self::assertAnySelectorTextNotContains('.card-title', $productName);
 
-        $client->request('GET', '/list/1/product/new');
+        $client->request('GET', self::URL);
 
         $client->submitForm('Save', [
             'product[name]' => $productName,
@@ -85,5 +89,15 @@ class CreateTest extends WebTestCase
 
         $client->request('GET', '/list/1');
         self::assertAnySelectorTextContains('.card-title', $productName);
+    }
+
+    public function testWhenAuthorizedUserClicksOnLink_ThenLinkIsNotDummy(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
+
+        self::assertSelectorNotExists('a[href="#"]:not([role="button"])');
     }
 }

@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UpdateTest extends WebTestCase
 {
+    const URL = '/list/1/edit';
+
     private function getUser(KernelBrowser $client, string $email = 'jan.kowalski@example.com'): User
     {
         /** @var UserRepository $repository */
@@ -25,7 +27,7 @@ class UpdateTest extends WebTestCase
     public function testWhenUserWantsToEditList_ThenUserHasToBeAuthenticated(): void
     {
         $client = self::createClient();
-        $client->request('GET', '/list/1/edit');
+        $client->request('GET', self::URL);
         self::assertResponseRedirects('/login');
     }
 
@@ -34,7 +36,7 @@ class UpdateTest extends WebTestCase
         $client = self::createClient();
         $user = $this->getUser($client);
         $client->loginUser($user);
-        $client->request('GET', '/list/1/edit');
+        $client->request('GET', self::URL);
         self::assertResponseIsSuccessful();
 
         self::assertSelectorTextContains('h1', 'Edit your shopping list');
@@ -71,7 +73,7 @@ class UpdateTest extends WebTestCase
         $client->request('GET', '/');
         self::assertAnySelectorTextNotContains('.card-header>h2', $listName);
 
-        $client->request('GET', '/list/1/edit');
+        $client->request('GET', self::URL);
 
         $client->submitForm('Save', [
             'shopping_list[name]' => $listName,
@@ -82,5 +84,15 @@ class UpdateTest extends WebTestCase
 
         $client->request('GET', '/');
         self::assertAnySelectorTextContains('.card-header>h2', $listName);
+    }
+
+    public function testWhenAuthorizedUserClicksOnLink_ThenLinkIsNotDummy(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
+
+        self::assertSelectorNotExists('a[href="#"]:not([role="button"])');
     }
 }

@@ -11,19 +11,23 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DeleteTest extends WebTestCase
 {
+    const URL = '/list/1/delete';
+
     private function getUser(KernelBrowser $client, string $email = 'jan.kowalski@example.com'): User
     {
+        /** @var UserRepository $repository */
         $repository = $client->getContainer()->get(UserRepository::class);
-        assert($repository instanceof UserRepository);
+
+        /** @var User $user */
         $user = $repository->findOneBy(['email' => $email]);
-        assert($user instanceof User);
+
         return $user;
     }
 
     public function testWhenUserWantsToDeleteList_ThenUserHasToBeAuthenticated(): void
     {
         $client = self::createClient();
-        $client->request('GET', '/list/1/delete');
+        $client->request('GET', self::URL);
         self::assertResponseRedirects('/login');
     }
 
@@ -32,7 +36,7 @@ class DeleteTest extends WebTestCase
         $client = self::createClient();
         $user = $this->getUser($client);
         $client->loginUser($user);
-        $client->request('GET', '/list/1/delete');
+        $client->request('GET', self::URL);
         self::assertResponseIsSuccessful();
 
         self::assertSelectorTextContains('h1', 'Do you really want to delete this list?');
@@ -68,7 +72,7 @@ class DeleteTest extends WebTestCase
         $client->request('GET', '/list/1');
         self::assertResponseIsSuccessful();
 
-        $client->request('GET', '/list/1/delete');
+        $client->request('GET', self::URL);
         $client->submitForm('Delete');
 
         self::assertResponseRedirects('/');
@@ -78,5 +82,15 @@ class DeleteTest extends WebTestCase
 
         $client->request('GET', '/list/1');
         self::assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
+    }
+
+    public function testWhenAuthorizedUserClicksOnLink_ThenLinkIsNotDummy(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
+
+        self::assertSelectorNotExists('a[href="#"]:not([role="button"])');
     }
 }
