@@ -86,19 +86,19 @@ The application should have the following controllers:
 
 ### `ShoppingListController`
 
-- [ ] `/new` - displays the form for adding a new shopping list
-- [ ] `/{id}` - displays the details of the selected shopping list
-- [ ] `/{id}/edit` - displays the form for editing the selected shopping list
-- [ ] `/{id}/delete` - deletes the selected shopping list
+- [ ] `/list/new` - displays the form for adding a new shopping list
+- [ ] `/list/{id}` - displays the details of the selected shopping list
+- [ ] `/list/{id}/edit` - displays the form for editing the selected shopping list
+- [ ] `/list/{id}/delete` - deletes the selected shopping list
 
 ### `ProductController`
 
-- [ ] `/{listId}/new` - displays the form for adding a new product to the list
-- [ ] `/{listId}/{id}` - displays the details of the selected product
-- [ ] `/{listId}/{id}/edit` - displays the form for editing the selected product
-- [ ] `/{listId}/{id}/delete` - deletes the selected product
-- [ ] `/{listId}/{id}/toggle` - marks the selected product as (un)purchased
-- [ ] `/{listId}/{id}/photo` - displays the photo of the selected product
+- [ ] `/list/{listId}/product/new` - displays the form for adding a new product to the list
+- [ ] ~~`/list/{listId}/product/{id}` - displays the details of the selected product~~
+- [ ] `/list/{listId}/product/{id}/edit` - displays the form for editing the selected product
+- [ ] `/list/{listId}/product/{id}/delete` - deletes the selected product
+- [ ] `/list/{listId}/product/{id}/toggle` - marks the selected product as (un)purchased
+- [ ] `/list/{listId}/product/{id}/photo` - displays the photo of the selected product
 
 ### `SettingsController`
 
