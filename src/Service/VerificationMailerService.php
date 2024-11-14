@@ -7,11 +7,11 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class VerificationMailerService
+readonly class VerificationMailerService
 {
     public function __construct(
         private UrlGeneratorInterface $router,
-        private MailerInterface $mailer
+        private MailerInterface       $mailer
     )
     {
     }
