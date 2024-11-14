@@ -11,7 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -43,7 +42,7 @@ class SecurityController extends AbstractController
     }
 
     #[Route(path: '/register', name: 'app_register')]
-    public function register(Request $request, MailerInterface $mailer): Response
+    public function register(Request $request): Response
     {
         $form = $this->createForm(RegisterType::class);
 
@@ -60,8 +59,7 @@ class SecurityController extends AbstractController
             try {
                 $this->verificationMailer->send(
                     $user->getEmail() ?? '',
-                    $user->getVerificationCode(),
-                    $mailer
+                    $user->getVerificationCode()
                 );
             } catch (TransportExceptionInterface) {
                 // FIXME: mock is not mocking

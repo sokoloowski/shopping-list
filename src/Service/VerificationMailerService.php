@@ -11,6 +11,7 @@ class VerificationMailerService
 {
     public function __construct(
         private UrlGeneratorInterface $router,
+        private MailerInterface $mailer
     )
     {
     }
@@ -18,7 +19,7 @@ class VerificationMailerService
     /**
      * @throws TransportExceptionInterface
      */
-    public function send(string $to, string $verificationCode, MailerInterface $mailer): void
+    public function send(string $to, string $verificationCode): void
     {
         $verificationLink = $this->router->generate(
             'app_verify',
@@ -32,6 +33,6 @@ class VerificationMailerService
             ->subject('Verify your email')
             ->html('Click <a href="' . $verificationLink . '">here</a> to verify your email');
 
-        $mailer->send($email);
+        $this->mailer->send($email);
     }
 }
