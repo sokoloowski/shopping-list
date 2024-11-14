@@ -86,10 +86,10 @@ The application should have the following controllers:
 
 ### `ShoppingListController`
 
-- [ ] `/list/new` - displays the form for adding a new shopping list
-- [ ] `/list/{id}` - displays the details of the selected shopping list
-- [ ] `/list/{id}/edit` - displays the form for editing the selected shopping list
-- [ ] `/list/{id}/delete` - deletes the selected shopping list
+- [x] `/list/new` - displays the form for adding a new shopping list
+- [x] `/list/{id}` - displays the details of the selected shopping list
+- [x] `/list/{id}/edit` - displays the form for editing the selected shopping list
+- [x] `/list/{id}/delete` - deletes the selected shopping list
 
 ### `ProductController`
 

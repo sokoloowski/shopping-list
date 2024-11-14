@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ list.name }}{% endblock %}
+
+{% block body %}
+    <div class="d-flex flex-row justify-content-between align-items-center mb-3">
+        <h1>{{ list.name }}</h1>
+        <div>
+            <a href="{{ path('app_list_update', {list: list.id}) }}" class="btn btn-primary">
+                Edit
+                <i class="bi bi-pencil"></i>
+            </a>
+            <a href="{{ path('app_list_delete', {list: list.id}) }}" class="btn btn-danger">
+                Delete
+                <i class="bi bi-trash"></i>
+            </a>
+        </div>
+    </div>
+    <div class="row row-cols-1 g-3">
+        {% for product in list.products %}
+            <div class="col col-md-8 offset-md-2">
+                <div class="card">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="{{ path('app_product_photo', {list: list.id, product: product.id}) }}"
+                                 class="img-fluid rounded-start" alt="{{ product.name }} photo">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row g-0 h-100">
+                                <div class="col-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ product.name }}</h5>
+                                        <p class="card-text">{{ product.unit.value|capitalize }}
+                                            : {{ product.quantity }}</p>
+                                    </div>
+                                </div>
+                                <div class="col-3 d-flex align-items-center">
+                                    <div class="row row-cols-1 gx-0 gy-3 text-center">
+                                        {% if product.realised %}
+                                            <a href="{{ path('app_product_toggle', {list: list.id, product: product.id}) }}"
+                                               class="btn btn-success">
+                                                In your cart
+                                                <i class="bi bi-cart-check"></i>
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ path('app_product_toggle', {list: list.id, product: product.id}) }}"
+                                               class="btn btn-outline-success">
+                                                Collect
+                                                <i class="bi bi-cart"></i>
+                                            </a>
+                                        {% endif %}
+                                        <a href="{{ path('app_product_update', {list: list.id, product: product.id}) }}"
+                                           class="btn btn-primary">
+                                            Edit
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a href="{{ path('app_product_delete', {list: list.id, product: product.id}) }}"
+                                           class="btn btn-danger">
+                                            Remove
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

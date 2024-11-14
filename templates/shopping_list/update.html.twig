@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProductController!{% endblock %}
+
+{% block body %}
+    {% if action == 'update' %}
+        <h1>Edit your shopping list</h1>
+    {% else %}
+        <h1>Create new shopping list</h1>
+    {% endif %}
+    {{ form_start(form) }}
+    <div class="mb-3">
+        {{ form_row(form.name) }}
+    </div>
+    <div class="mb-3">
+        {{ form_row(form.purchaseDate) }}
+    </div>
+    <a href="{{ path('app_overview') }}" class="btn btn-outline-secondary">Cancel</a>
+    <button type="submit" class="btn btn-primary">Save</button>
+    {{ form_end(form) }}
+{% endblock %}
