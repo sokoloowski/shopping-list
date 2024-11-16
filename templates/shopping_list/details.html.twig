@@ -17,13 +17,20 @@
         </div>
     </div>
     <div class="row row-cols-1 g-3">
+        <div class="col col-md-8 offset-md-2">
+            <a href="{{ path('app_product_create', {list: list.id}) }}"
+               class="card p-3 d-flex align-items-center justify-content-center flex-row lead text-decoration-none">
+                <i class="bi bi-plus"></i>
+                Add a product
+            </a>
+        </div>
         {% for product in list.products %}
             <div class="col col-md-8 offset-md-2">
                 <div class="card">
                     <div class="row g-0">
                         <div class="col-md-4">
-                            <img src="{{ path('app_product_photo', {list: list.id, product: product.id}) }}"
-                                 class="img-fluid rounded-start" alt="{{ product.name }} photo">
+                            <img src="{{ product.imageName ? vich_uploader_asset(product) : 'https://via.placeholder.com/250' }}"
+                                 class="img-fluid rounded-start w-100" alt="{{ product.name }} photo">
                         </div>
                         <div class="col-md-8">
                             <div class="row g-0 h-100">

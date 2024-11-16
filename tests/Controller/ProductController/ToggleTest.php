@@ -63,14 +63,14 @@ class ToggleTest extends WebTestCase
         $client->loginUser($user);
 
         $client->request('GET', '/list/1');
-        self::assertSelectorExists('.col:first-child>.card .btn-success');
-        self::assertSelectorNotExists('.col:first-child>.card .btn-outline-success');
+        self::assertSelectorExists('.col:nth-child(2)>.card .btn-success');
+        self::assertSelectorNotExists('.col:nth-child(2)>.card .btn-outline-success');
 
         $client->request('GET', '/list/1/product/1/toggle');
         self::assertResponseRedirects('/list/1');
 
         $client->request('GET', '/list/1');
-        self::assertSelectorNotExists('.col:first-child>.card .btn-success');
-        self::assertSelectorExists('.col:first-child>.card .btn-outline-success');
+        self::assertSelectorNotExists('.col:nth-child(2)>.card .btn-success');
+        self::assertSelectorExists('.col:nth-child(2)>.card .btn-outline-success');
     }
 }
