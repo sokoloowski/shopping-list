@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 /**
  * @phpstan-ignore-next-line
@@ -31,6 +32,13 @@ class ProductType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('imageFile', VichImageType::class, [
+                'label' => false,
+                'required' => false,
+                'empty_data' => null,
+                'delete_label' => 'Usuń obraz',
+                'download_label' => 'Pobierz obraz',
+            ])
             ->add('quantity', NumberType::class)
             ->add('unit', EnumType::class, [
                 'class' => ProductUnitEnum::class,

@@ -118,17 +118,4 @@ class ProductController extends AbstractController
             'list' => $list->getId()
         ]);
     }
-
-    #[Route('/{product}/photo', name: 'photo')]
-    public function photo(ShoppingList $list, Product $product): Response
-    {
-        if ($list->getOwner() !== $this->getUser()) {
-            throw $this->createAccessDeniedException();
-        }
-
-        // FIXME: this is only a temporary solution
-        return new Response(file_get_contents(__DIR__ . '/../../assets/products/1.jpg') ?: null, 200, [
-            'Content-Type' => 'image/jpeg',
-        ]);
-    }
 }
