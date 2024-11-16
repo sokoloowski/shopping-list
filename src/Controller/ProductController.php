@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Entity\ProductUnitEnum;
 use App\Entity\ShoppingList;
 use App\Form\DeleteType;
 use App\Form\ProductType;
@@ -50,6 +51,28 @@ class ProductController extends AbstractController
         return $this->render('product/update.html.twig', [
             'list' => $list,
             'form' => $form,
+            'predefined' => [
+                'bread' => [
+                    'name' => 'Bread',
+                    'unit' => ProductUnitEnum::PCS->value,
+                    'quantity' => 1,
+                ],
+                'milk' => [
+                    'name' => 'Milk',
+                    'unit' => ProductUnitEnum::L->value,
+                    'quantity' => 1,
+                ],
+                'water' => [
+                    'name' => 'Water',
+                    'unit' => ProductUnitEnum::ML->value,
+                    'quantity' => 500,
+                ],
+                'Cheese' => [
+                    'name' => 'Cheese',
+                    'unit' => ProductUnitEnum::G->value,
+                    'quantity' => 200,
+                ],
+            ]
         ]);
     }
 

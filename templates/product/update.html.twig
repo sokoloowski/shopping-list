@@ -2,11 +2,28 @@
 
 {% block title %}Hello ProductController!{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        function predefined(name, quantity, unit) {
+            document.getElementById('product_name').value = name;
+            document.getElementById('product_quantity').value = quantity;
+            document.getElementById('product_unit').value = unit;
+        }
+    </script>
+{% endblock %}
+
 {% block body %}
     {% if form.shoppingList is defined %}
         <h1>Edit your product</h1>
     {% else %}
         <h1>Add a new product to {{ list.name }}</h1>
+        <div>
+            Predefined:
+        {% for predef in predefined %}
+            <button class="btn btn-outline-secondary btn-sm rounded-pill" onclick="predefined('{{ predef.name }}', '{{ predef.quantity }}', '{{ predef.unit }}')">{{ predef.name }}</button>
+        {% endfor %}
+        </div>
     {% endif %}
     {{ form_start(form) }}
     <div class="mb-3">

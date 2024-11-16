@@ -42,6 +42,7 @@ class CreateTest extends WebTestCase
 
         self::assertSelectorTextContains('h1', 'Add a new product to');
         self::assertSelectorExists('form');
+        self::assertSelectorExists('button[onclick]');
         self::assertSelectorExists('input[name="product[name]"]');
         self::assertSelectorExists('input[name="product[quantity]"]');
         self::assertSelectorExists('select[name="product[unit]"]');
