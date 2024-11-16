@@ -98,7 +98,7 @@ The application should have the following controllers:
 - [x] `/list/{listId}/product/{id}/edit` - displays the form for editing the selected product
 - [x] `/list/{listId}/product/{id}/delete` - deletes the selected product
 - [x] `/list/{listId}/product/{id}/toggle` - marks the selected product as (un)purchased
-- [ ] `/list/{listId}/product/{id}/photo` - displays the photo of the selected product
+- [ ] ~~`/list/{listId}/product/{id}/photo` - displays the photo of the selected product~~ realised by `Vich/UploaderBundle`
 
 ### `SettingsController`
 

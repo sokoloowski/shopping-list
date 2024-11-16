@@ -16,6 +16,9 @@
             </a>
         </div>
     </div>
+    <div>
+        <p class="lead">Suggested purchase date: {{ list.purchaseDate|date("Y-m-d") }}</p>
+    </div>
     <div class="row row-cols-1 g-3">
         <div class="col col-md-8 offset-md-2">
             <a href="{{ path('app_product_create', {list: list.id}) }}"
@@ -28,20 +31,20 @@
             <div class="col col-md-8 offset-md-2">
                 <div class="card">
                     <div class="row g-0">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <img src="{{ product.imageName ? vich_uploader_asset(product) : 'https://via.placeholder.com/250' }}"
-                                 class="img-fluid rounded-start w-100" alt="{{ product.name }} photo">
+                                 class="img-fluid rounded-start" alt="{{ product.name }} photo">
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-9">
                             <div class="row g-0 h-100">
                                 <div class="col-8">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ product.name }}</h5>
-                                        <p class="card-text">{{ product.unit.value|capitalize }}
+                                        <h5 class="card-title {{ product.realised ? 'text-decoration-line-through' : '' }}">{{ product.name }}</h5>
+                                        <p class="card-text {{ product.realised ? 'text-decoration-line-through' : '' }}">{{ product.unit.value|capitalize }}
                                             : {{ product.quantity }}</p>
                                     </div>
                                 </div>
-                                <div class="col-3 d-flex align-items-center">
+                                <div class="my-3 col-3 d-flex align-items-center">
                                     <div class="row row-cols-1 gx-0 gy-3 text-center">
                                         {% if product.realised %}
                                             <a href="{{ path('app_product_toggle', {list: list.id, product: product.id}) }}"
