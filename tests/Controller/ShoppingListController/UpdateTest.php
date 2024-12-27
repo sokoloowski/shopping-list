@@ -60,6 +60,7 @@ class UpdateTest extends WebTestCase
         $othersList = $user2->getShoppingLists()[0];
 
         // Prevent PHPUnit to catch exceptions with KernelBrowser
+        // https://stackoverflow.com/a/50465691
         $client->catchExceptions(false);
         $this->expectException(AccessDeniedException::class);
 

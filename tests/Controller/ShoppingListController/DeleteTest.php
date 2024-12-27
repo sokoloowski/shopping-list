@@ -58,6 +58,7 @@ class DeleteTest extends WebTestCase
         $othersList = $user2->getShoppingLists()[0];
 
         // Prevent PHPUnit to catch exceptions with KernelBrowser
+        // https://stackoverflow.com/a/50465691
         $client->catchExceptions(false);
         $this->expectException(AccessDeniedException::class);
 
@@ -88,6 +89,7 @@ class DeleteTest extends WebTestCase
         self::assertAnySelectorTextNotContains('.card-header>h2', $listName);
 
         // Prevent PHPUnit to catch exceptions with KernelBrowser
+        // https://stackoverflow.com/a/50465691
         $client->catchExceptions(false);
         $this->expectException(NotFoundHttpException::class);
 
