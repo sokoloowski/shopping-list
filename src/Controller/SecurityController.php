@@ -62,7 +62,6 @@ class SecurityController extends AbstractController
                     $user->getVerificationCode()
                 );
             } catch (TransportExceptionInterface) {
-                // FIXME: mock is not mocking
                 $this->entityManager->remove($user);
                 $this->entityManager->flush();
                 $this->addFlash('danger', 'Could not send verification e-mail');

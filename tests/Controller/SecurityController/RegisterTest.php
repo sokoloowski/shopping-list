@@ -3,9 +3,9 @@
 namespace App\Tests\Controller\SecurityController;
 
 use App\Repository\UserRepository;
-use App\Service\VerificationMailerService;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Mailer\Exception\TransportException;
+use Symfony\Component\Mailer\MailerInterface;
 
 class RegisterTest extends WebTestCase
 {
@@ -127,19 +127,23 @@ class RegisterTest extends WebTestCase
 
     public function testWhenUserSignsUpAndErrorIsThrown_ThenUserIsRemoved(): void
     {
-        self::markTestIncomplete('Mock is not mocking');
-        $client = self::createClient(); // @phpstan-ignore-line I know it doesn't work
+        $client = self::createClient();
         $email = 'test@example.com';
         $password = '$tr0ngP4$$w0rd';
 
-        // FIXME: mock is not working
-        $mock = $this->createMock(VerificationMailerService::class);
+        // keep mock in container after creating HTTP requests
+        // https://stackoverflow.com/a/60493494
+        $client->disableReboot();
+
+        $mock = $this->createMock(MailerInterface::class);
         $mock->method('send')
             ->willThrowException(new TransportException());
-        $client->getContainer()->set(VerificationMailerService::class, $mock);
+        $client->getContainer()->set(MailerInterface::class, $mock);
         $client->request('GET', self::URL);
 
-        $this->expectException(TransportException::class);
+        // Exception will not be thrown because of try...catch block
+        // $this->expectException(TransportExceptionInterface::class);
+
         $client->submitForm('Sign up', [
             'register[email]' => $email,
             'register[password][first]' => $password,
@@ -150,7 +154,7 @@ class RegisterTest extends WebTestCase
         $client->followRedirect();
 
         self::assertSelectorExists('.alert-danger');
-        self::assertSelectorTextContains('.alert-danger','Could not send verification e-mail');
+        self::assertSelectorTextContains('.alert-danger', 'Could not send verification e-mail');
     }
 
     public function testWhenAuthorizedUserClicksOnLink_ThenLinkIsNotDummy(): void
