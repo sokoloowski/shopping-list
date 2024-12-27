@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controller\ShoppingListController;
+namespace App\Tests\Application\Controller\ShoppingListController;
 
 use App\Entity\ShoppingList;
 use App\Entity\User;
@@ -51,20 +51,66 @@ class ReadTest extends WebTestCase
         self::assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
     }
 
-    public function testWhenAuthenticatedUserWantsToDisplayList_ThenListIsShown(): void
+    public function testWhenAuthenticatedUserWantsToDisplayList_ThenResponseIsSuccessful(): void
     {
         $client = self::createClient();
         $user = $this->getUser($client);
         $client->loginUser($user);
         $client->request('GET', self::URL);
         self::assertResponseIsSuccessful();
+    }
 
+    public function testWhenAuthenticatedUserWantsToDisplayList_ThenCartButtonIsShown(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
         self::assertSelectorTextContains('.col>.card .btn-success', 'In your cart');
-        self::assertSelectorTextContains('.col>.card .btn-outline-success', 'Collect');
-        self::assertSelectorTextContains('.col>.card .btn-primary', 'Edit');
-        self::assertSelectorTextContains('.col>.card .btn-danger', 'Remove');
+    }
 
+    public function testWhenAuthenticatedUserWantsToDisplayList_ThenCollectButtonIsShown(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
+        self::assertSelectorTextContains('.col>.card .btn-outline-success', 'Collect');
+    }
+
+    public function testWhenAuthenticatedUserWantsToDisplayList_ThenEditButtonIsShown(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
+        self::assertSelectorTextContains('.col>.card .btn-primary', 'Edit');
+    }
+
+    public function testWhenAuthenticatedUserWantsToDisplayList_ThenRemoveButtonIsShown(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
+        self::assertSelectorTextContains('.col>.card .btn-danger', 'Remove');
+    }
+
+    public function testWhenAuthenticatedUserWantsToDisplayList_ThenListEditButtonIsShown(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
         self::assertSelectorTextContains('h1~div>.btn-primary', 'Edit');
+    }
+
+    public function testWhenAuthenticatedUserWantsToDisplayList_ThenListDeleteButtonIsShown(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
         self::assertSelectorTextContains('h1~div>.btn-danger', 'Delete');
     }
 

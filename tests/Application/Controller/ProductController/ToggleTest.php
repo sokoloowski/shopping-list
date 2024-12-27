@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controller\ProductController;
+namespace App\Tests\Application\Controller\ProductController;
 
 use App\Entity\Product;
 use App\Entity\ShoppingList;

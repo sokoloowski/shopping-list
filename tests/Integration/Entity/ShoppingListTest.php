@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Entity;
+namespace App\Tests\Integration\Entity;
 
 use App\Entity\Product;
 use App\Entity\ShoppingList;
@@ -33,34 +33,6 @@ class ShoppingListTest extends TestCase
             ->method("setShoppingList")
             ->with($list);
         $list->addProduct($product);
-    }
-
-    public function testWhenShoppingListIsCreated_ThenNameIsNotNull(): void
-    {
-        $list = new ShoppingList();
-        self::assertNotNull($list->getName());
-    }
-
-    public function testWhenShoppingListIsCreated_ThenNameIsNotEmpty(): void
-    {
-        $list = new ShoppingList();
-        self::assertNotEmpty($list->getName());
-    }
-
-    public function testWhenNameIsSet_ThenCorrectNameIsGet(): void
-    {
-        $list = new ShoppingList();
-        $name = "[TEST] Some shopping list name";
-        $list->setName($name);
-        self::assertEquals($name, $list->getName());
-    }
-
-    public function testWhenPurchaseDateIsSet_ThenCorrectDateIsGet(): void
-    {
-        $list = new ShoppingList();
-        $date = new \DateTimeImmutable();
-        $list->setPurchaseDate($date);
-        self::assertEquals($date, $list->getPurchaseDate());
     }
 
     public function testWhenProductIsRemovedFromList_ThenProductRemovesParentList(): void

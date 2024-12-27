@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controller\OverviewController;
+namespace App\Tests\Application\Controller\OverviewController;
 
 use App\Entity\User;
 use App\Repository\UserRepository;

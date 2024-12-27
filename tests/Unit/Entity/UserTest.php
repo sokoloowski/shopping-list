@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Tests\Entity;
+namespace App\Tests\Unit\Entity;
 
-use App\Entity\ShoppingList;
 use App\Entity\User;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -82,24 +81,6 @@ class UserTest extends TestCase
         self::assertGreaterThan($user->getRegisteredAt(), $user->getVerifiedAt());
     }
 
-    public function testWhenUserCreatesNewShoppingList_ThenShoppingListIsAddedToUser(): void
-    {
-        $user = new User();
-        $list = $this->createMock(ShoppingList::class);
-        $user->addShoppingList($list);
-        self::assertContains($list, $user->getShoppingLists());
-    }
-
-    public function testWhenUserCreatesNewShoppingList_ThenShoppingListOwnerWillBeSet(): void
-    {
-        $user = new User();
-        $list = $this->createMock(ShoppingList::class);
-        $list->expects($this->once())
-            ->method("setOwner")
-            ->with($user);
-        $user->addShoppingList($list);
-    }
-
     public function testWhenUserLogIn_ThenLastLogInDateIsUpdated(): void
     {
         $user = new User();
@@ -120,19 +101,6 @@ class UserTest extends TestCase
         $user = new User();
         $user->setLoggedIn();
         self::assertNotNull($user->getLastLogInDate());
-    }
-
-    public function testWhenProductIsRemovedFromList_ThenProductRemovesParentList(): void
-    {
-        $user = new User();
-        $list = $this->createMock(ShoppingList::class);
-        $list->method("getOwner")
-            ->willReturn($user);
-        $user->addShoppingList($list);
-        $list->expects($this->once())
-            ->method("setOwner")
-            ->with(null);
-        $user->removeShoppingList($list);
     }
 
     public function testWhenUsernameIsSet_ThenCorrectUsernameIsGet(): void

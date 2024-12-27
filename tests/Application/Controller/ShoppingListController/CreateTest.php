@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controller\ShoppingListController;
+namespace App\Tests\Application\Controller\ShoppingListController;
 
 use App\Entity\User;
 use App\Repository\ShoppingListRepository;
@@ -30,21 +30,66 @@ class CreateTest extends WebTestCase
         self::assertResponseRedirects('/login');
     }
 
-    public function testWhenAuthenticatedUserWantsToCreateList_ThenFormIsShown(): void
+    public function testWhenAuthenticatedUserWantsToCreateList_ThenResponseIsSuccessful(): void
     {
         $client = self::createClient();
         $user = $this->getUser($client);
         $client->loginUser($user);
         $client->request('GET', self::URL);
         self::assertResponseIsSuccessful();
+    }
 
+    public function testWhenAuthenticatedUserWantsToCreateList_ThenResponseContainsHeading(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
         self::assertSelectorTextContains('h1', 'Create new shopping list');
+    }
+
+    public function testWhenAuthenticatedUserWantsToCreateList_ThenResponseContainsForm(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
         self::assertSelectorExists('form');
+    }
+
+    public function testWhenAuthenticatedUserWantsToCreateList_ThenNameInputIsShown(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
         self::assertSelectorExists('input[name="shopping_list[name]"]');
+    }
+
+    public function testWhenAuthenticatedUserWantsToCreateList_ThenPurchaseDateInputIsShown(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
         self::assertSelectorExists('input[name="shopping_list[purchaseDate]"]');
+    }
 
+    public function testWhenAuthenticatedUserWantsToCreateList_ThenSubmitButtonIsShown(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
         self::assertSelectorExists('button[type="submit"]');
+    }
 
+    public function testWhenAuthenticatedUserWantsToCreateList_ThenCancelButtonIsShown(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
         self::assertAnySelectorTextContains('a[href="/"]', 'Cancel');
     }
 

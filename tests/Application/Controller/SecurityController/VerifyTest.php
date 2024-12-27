@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Tests\Controller\SecurityController;
+namespace App\Tests\Application\Controller\SecurityController;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use App\Service\VerificationMailerService;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Mailer\Exception\TransportException;
 
 class VerifyTest extends WebTestCase
 {

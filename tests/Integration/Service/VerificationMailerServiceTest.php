@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Service;
+namespace App\Tests\Integration\Service;
 
 use App\Service\VerificationMailerService;
 use PHPUnit\Framework\TestCase;

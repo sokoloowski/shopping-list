@@ -1,22 +1,12 @@
 <?php
 
-namespace App\Tests\Entity;
+namespace App\Tests\Unit\Entity;
 
 use App\Entity\Product;
-use App\Entity\ProductUnitEnum;
-use App\Entity\ShoppingList;
 use PHPUnit\Framework\TestCase;
 
 class ProductTest extends TestCase
 {
-    public function testWhenProductIsCreated_ThenShoppingListIsAssigned(): void
-    {
-        $list = $this->createMock(ShoppingList::class);
-        $product = new Product();
-        $product->setShoppingList($list);
-        self::assertSame($list, $product->getShoppingList());
-    }
-
     public function testWhenNameIsSet_ThenCorrectNameIsGet(): void
     {
         $product = new Product();
@@ -59,13 +49,5 @@ class ProductTest extends TestCase
         $product->setRealisation(true);
         $product->toggleRealisation();
         self::assertFalse($product->isRealised());
-    }
-
-    public function testWhenUnitIsSet_ThenCorrectUnitIsGet(): void
-    {
-        $product = new Product();
-        $unit = ProductUnitEnum::ML;
-        $product->setUnit($unit);
-        self::assertEquals($unit, $product->getUnit());
     }
 }

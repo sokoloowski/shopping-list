@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controller\ProductController;
+namespace App\Tests\Application\Controller\ProductController;
 
 use App\Entity\ProductUnitEnum;
 use App\Entity\ShoppingList;
@@ -33,25 +33,93 @@ class CreateTest extends WebTestCase
         self::assertResponseRedirects('/login');
     }
 
-    public function testWhenAuthenticatedUserWantsToCreateProduct_ThenFormIsShown(): void
+    public function testWhenAuthenticatedUserWantsToCreateProduct_ThenResponseIsSuccessful(): void
     {
         $client = self::createClient();
         $user = $this->getUser($client);
         $client->loginUser($user);
         $client->request('GET', self::URL);
         self::assertResponseIsSuccessful();
+    }
 
+    public function testWhenAuthenticatedUserWantsToCreateProduct_ThenResponseContainsHeading(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
         self::assertSelectorTextContains('h1', 'Add a new product to');
+    }
+
+    public function testWhenAuthenticatedUserWantsToCreateProduct_ThenResponseContainsForm(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
         self::assertSelectorExists('form');
+    }
+
+    public function testWhenAuthenticatedUserWantsToCreateProduct_ThenAutocompleteButtonIsShown(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
         self::assertSelectorExists('button[onclick]');
+    }
+
+    public function testWhenAuthenticatedUserWantsToCreateProduct_ThenNameInputIsShown(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
         self::assertSelectorExists('input[name="product[name]"]');
+    }
+
+    public function testWhenAuthenticatedUserWantsToCreateProduct_ThenQuantityInputIsShown(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
         self::assertSelectorExists('input[name="product[quantity]"]');
+    }
+
+    public function testWhenAuthenticatedUserWantsToCreateProduct_ThenUnitSelectIsShown(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
         self::assertSelectorExists('select[name="product[unit]"]');
+    }
 
+    public function testWhenAuthenticatedUserWantsToCreateProduct_ThenListSelectIsShown(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
         self::assertSelectorNotExists('select[name="product[shoppingList]"]');
+    }
 
+    public function testWhenAuthenticatedUserWantsToCreateProduct_ThenSubmitButtonIsShown(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
         self::assertSelectorExists('button[type="submit"]');
+    }
 
+    public function testWhenAuthenticatedUserWantsToCreateProduct_ThenCancelButtonIsShown(): void
+    {
+        $client = self::createClient();
+        $user = $this->getUser($client);
+        $client->loginUser($user);
+        $client->request('GET', self::URL);
         self::assertSelectorTextContains('a[href="/list/1"]', 'Cancel');
     }
 
