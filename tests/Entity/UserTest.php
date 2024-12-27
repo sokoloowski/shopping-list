@@ -49,7 +49,7 @@ class UserTest extends TestCase
     public function testWhenWrongVerificationCodeUsed_ThenHttpExceptionIsThrown(): void
     {
         $user = new User();
-        self::expectException(HttpException::class);
+        $this->expectException(HttpException::class);
         $user->verify($user->getVerificationCode() . "_incorrect");
     }
 
