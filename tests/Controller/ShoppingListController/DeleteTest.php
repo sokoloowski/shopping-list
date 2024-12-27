@@ -8,6 +8,8 @@ use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class DeleteTest extends WebTestCase
 {
@@ -51,8 +53,13 @@ class DeleteTest extends WebTestCase
         $user = $this->getUser($client);
         $user2 = $this->getUser($client, 'john.doe@example.com');
         $client->loginUser($user);
+
         /** @var ShoppingList $othersList */
         $othersList = $user2->getShoppingLists()[0];
+
+        // Prevent PHPUnit to catch exceptions with KernelBrowser
+        $client->catchExceptions(false);
+        $this->expectException(AccessDeniedException::class);
 
         $client->request('GET', '/list/' . ($othersList->getId() ?? 0) . '/delete');
 
@@ -79,6 +86,10 @@ class DeleteTest extends WebTestCase
 
         $client->request('GET', '/');
         self::assertAnySelectorTextNotContains('.card-header>h2', $listName);
+
+        // Prevent PHPUnit to catch exceptions with KernelBrowser
+        $client->catchExceptions(false);
+        $this->expectException(NotFoundHttpException::class);
 
         $client->request('GET', '/list/1');
         self::assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);

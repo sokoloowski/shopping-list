@@ -10,6 +10,7 @@ use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class UpdateTest extends WebTestCase
 {
@@ -63,6 +64,10 @@ class UpdateTest extends WebTestCase
         $othersList = $user2->getShoppingLists()[0];
         /** @var Product $othersProduct */
         $othersProduct = $othersList->getProducts()[0];
+
+        // Prevent PHPUnit to catch exceptions with KernelBrowser
+        $client->catchExceptions(false);
+        $this->expectException(AccessDeniedException::class);
 
         $client->request('GET', '/list/' . ($othersList->getId() ?? 0) .
             '/product/' . ($othersProduct->getId() ?? 0) . '/edit');
